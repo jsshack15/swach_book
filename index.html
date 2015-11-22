@@ -1,165 +1,245 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
-  <title>SocietyPortal</title>
 
-  <!-- CSS  -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
-</head>
-<body>
-  <nav class="white" role="navigation">
-    <div class="nav-wrapper container">
-      <a id="logo-container" href="#" class="brand-logo">Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
+<?php
 
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-    </div>
-  </nav>
+/*$host = 'localhost';
+$user = 'root';
+$pass = 'ashiva ';
 
-  <div id="index-banner" class="parallax-container">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <br><br>
-        <h1 class="header center teal-text text-lighten-2">Parallax Template</h1>
-        <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-        </div>
-        <div class="row center">
-          <a href="http://materializecss.com/getting-started.html" id="download-button" class="btn-large waves-effect waves-light teal lighten-1">Get Started</a>
-        </div>
-        <br><br>
+mysql_connect($host, $user, $pass);
 
-      </div>
-    </div>
-    <div class="parallax"><img src="background1.jpg" alt="Unsplashed background img 1"></div>
-  </div>
+mysql_select_db('demo');*/
+
+$username="root";
+$password="ashiva";
+mysql_connect("localhost", "$username", "$password");
+mysql_select_db ("demo");
+   if(isset($_FILES['image'])){
+      $errors= array();
+      $file_name = $_FILES['image']['name'];
+      $file_size =$_FILES['image']['size'];
+      $file_tmp =$_FILES['image']['tmp_name'];
+      $file_type=$_FILES['image']['type'];
+      $file_ext=strtolower(end(explode('.',$_FILES['image']['name'])));
+      
+      $expensions= array("jpeg","jpg","png");
+      
+      if(in_array($file_ext,$expensions)=== false){
+         $errors[]="extension not allowed, please choose a JPEG or PNG file.";
+      }
+      
+      if($file_size > 2097152){
+         $errors[]='File size must be exactly 2 MB';
+		}
+      $folder="/var/www/html/";
+      if(empty($errors)==true){
+         move_uploaded_file($file_tmp,"/var/www/html/".$file_name);
+        // $insert_path="INSERT INTO image_table VALUES('$folder','$file_name')";
+         //$insert_path="INSERT INTO image_table contents (folder, image_name)  VALUES('fggg','vffgkudsg')";
+
+//mysql_query($insert_path);
 
 
-  <div class="container">
-    <div class="section">
-
-      <!--   Icon Section   -->
-      <div class="row">
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center brown-text"><i class="material-icons">flash_on</i></h2>
-            <h5 class="center">Speeds up development</h5>
-
-            <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center brown-text"><i class="material-icons">group</i></h2>
-            <h5 class="center">User Experience Focused</h5>
-
-            <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
-          </div>
-        </div>
-
-        <div class="col s12 m4">
-          <div class="icon-block">
-            <h2 class="center brown-text"><i class="material-icons">settings</i></h2>
-            <h5 class="center">Easy to work with</h5>
-
-            <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
+/*$username="root";
+$password="ashiva";
+mysql_connect("localhost", "$username", "$password");
+mysql_select_db ("demo");*/
+$sql = sprintf("INSERT INTO image_table
+    (folder, image_name)
+    VALUES
+    ('%s', '%s')",
+    $folder, $file_name
+    );
+mysql_query($sql);
 
 
-  <div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-        </div>
-      </div>
-    </div>
-    <div class="parallax"><img src="background2.jpg" alt="Unsplashed background img 2"></div>
-  </div>
-
-  <div class="container">
-    <div class="section">
-
-      <div class="row">
-        <div class="col s12 center">
-          <h3><i class="mdi-content-send brown-text"></i></h3>
-          <h4>Contact Us</h4>
-          <p class="left-align light">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam scelerisque id nunc nec volutpat. Etiam pellentesque tristique arcu, non consequat magna fermentum ac. Cras ut ultricies eros. Maecenas eros justo, ullamcorper a sapien id, viverra ultrices eros. Morbi sem neque, posuere et pretium eget, bibendum sollicitudin lacus. Aliquam eleifend sollicitudin diam, eu mattis nisl maximus sed. Nulla imperdiet semper molestie. Morbi massa odio, condimentum sed ipsum ac, gravida ultrices erat. Nullam eget dignissim mauris, non tristique erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;</p>
-        </div>
-      </div>
-
-    </div>
-  </div>
 
 
-  <div class="parallax-container valign-wrapper">
-    <div class="section no-pad-bot">
-      <div class="container">
-        <div class="row center">
-          <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
-        </div>
-      </div>
-    </div>
-    <div class="parallax"><img src="background3.jpg" alt="Unsplashed background img 3"></div>
-  </div>
+//echo $var;
+         //echo "Success";
+      }
+      /*else{
+         print_r($errors);
+      }
+   }*/
+?>
 
-  <footer class="page-footer teal">
-    <div class="container">
-      <div class="row">
-        <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
-
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-        <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
-          <ul>
-            <li><a class="white-text" href="#!">Link 1</a></li>
-            <li><a class="white-text" href="#!">Link 2</a></li>
-            <li><a class="white-text" href="#!">Link 3</a></li>
-            <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div class="footer-copyright">
-      <div class="container">
-      Made by <a class="brown-text text-lighten-3" href="http://materializecss.com">Materialize</a>
-      </div>
-    </div>
-  </footer>
-
-
-  <!--  Scripts-->
-  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script src="../../dist/js/materialize.js"></script>
-  <script src="js/init.js"></script>
-
-  </body>
-</html>
+<html>
+	<head>
+		<!-- CHANGE TITLE AND META ACCORDINGLY -->
+		<title>contest_page</title>
+		<meta name="description" content="Faiz Malkani, Designer and Developer for Android and the Web">
+		<meta name="keywords" content="faiz, malkani, android, ui, ux, frontend">
+		<meta name="copyright" content="Copyright © 2014 Faiz Malkani. All Rights Reserved.">
+		<meta name="author" content="Faiz Malkani">
+		<meta name="theme-color" content="#ffffff">
+		<meta content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes" name="viewport">
+		<link rel="stylesheet" href="css/materialize.css" >
+		<link rel="stylesheet" href="css/tidy.css">
+		<link rel="stylesheet" href="css/animate.css">
+		<script src="js/jquery.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js"></script>
+		<script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+		<script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+        <link href="//cdn.rawgit.com/noelboss/featherlight/1.3.2/release/featherlight.min.css" type="text/css" rel="stylesheet" title="Featherlight Styles" />
+        <script src="//cdn.rawgit.com/noelboss/featherlight/1.3.2/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/materialize.js"></script>
+		<link rel="import" href="bower_components/paper-ripple/paper-ripple.html">
+		<link rel="import" href="bower_components/paper-fab/paper-fab.html">
+		<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+	</head>
+	<body>
+	
+		<div class="container" style="width: 100%">
+			<!-- COVER IMAGE AND FLOATING BUTTON -->
+			<div class="cover-image"></div>	
+			<div class="desktop-fab-container ">
+				<!-- REPLACE WITH YOUR APP URL -->
+     			<a href="YOUR_APP_URL_HERE">
+     				<paper-fab class="wow fadeInUp desktop-fab" icon="shop"></paper-fab>
+     			</a>
+			</div>
+			
+			<!-- ICON, NAME AND DESCRIPTION -->
+			<div class="wow fadeInUp content-card">
+				<!-- REPLACE WITH YOUR APP URL -->
+				<a href="YOUR_APP_URL_HERE">
+					<paper-fab class="mobile-fab" icon="shop"></paper-fab>
+				</a>
+				
+				<div class="icon-and-title-flex">
+					<img src="img/ic_launcher.png" class="appicon"></img>
+					<div class="title-container">
+						<!-- REPLACE WITH YOUR APP NAME -->
+						<span class="text-title" style="font-weight:400;text-shadow: 2px 2px black">CONTEST PAGE</span>
+						<br><div class="intertext-padding"></div>
+						<!-- REPLACE WITH YOUR DEV NAME -->
+						<span class="text-subtitle"></span>
+						<br><div class="intertext-padding"></div>
+						<!-- REPLACE WITH YOUR APP PRICE -->
+						<span class="text-subtitle">This contest page have been developed in order to achieve the goal of our Honorable Prime minister Sri.Narendra Modi ji to have a clean and green India.This contest is of 5 days and in this individual have to post his/her "Before and After" pic of a place showing the contribution in Swacch Bharat Abhayan.Winners are decided by the maximum number of votes they recieved in their pics.Prizes have been arranged for the winners.<h3>Interested people could upload their pics along with their discriptions:-</h3></span>
+					</div>	
+				</div><br><br>
+				<!-- REPLACE WITH YOUR APP DESCRIPTION -->
+				<span class="text-description" style="font-size: 1.1em">
+				<form class="form1" name="form1" action="" method="post" enctype="multipart/form-data">
+					<fieldset>
+						<legend style="font-weight:900">UPLOAD</legend>
+						<label for="avatar" style="font-weight:900">Your image:</label>
+						<input type="file" id="image" name="image" required><br>
+						</br>
+						<label for="discription" style="font-weight:900">Image discription:</label>
+						<textarea name="discription" id="discription" cols="20" rows="2"></textarea><br>
+						<br>
+						<input type="submit" name="submit" value="Submit">
+					</fieldset>
+				</form>
+			</div>
+			
+			<!-- OTHER APPS BY YOU -->
+			<div class="wow fadeInUp content-works">
+				
+				<img id="preview" src="" alt=""> 
+				
+			    <div class="screenshot-item">
+					
+                    
+                        <div id="outer" style="position:relative"><div id="inner" style="position:relative"><img class="materialboxed responsive-img" data-caption="A picture of some deer and tons of trees" width="250" src="http://bhiwandicity.net/wp-content/uploads/2014/11/113.jpg"></div>
+						<input type="image" name="image" src="http://www.ecreativeim.com/blog/wp-content/uploads/2011/05/facebook-like-icon.png" width="25px"><input value="00" id="value" style="align:center"></input></div>
+						<figcaption style="background:white">Fig.1 - A view of the pulpit rock in Norway.</figcaption>
+               
+                </div>
+				
+				<div class="screenshot-item">
+					
+                    
+                        <div id="outer" style="position:relative"><div id="inner" style="position:relative"><img class="materialboxed responsive-img" data-caption="A picture of some deer and tons of trees" width="250" src="http://bhiwandicity.net/wp-content/uploads/2014/11/113.jpg"></div>
+						<input type="image" name="image" src="http://www.ecreativeim.com/blog/wp-content/uploads/2011/05/facebook-like-icon.png" width="25px"><input value="00" id="value" style="align:center"></input></div>
+						<figcaption style="background:white">Fig.1 - A view of the pulpit rock in Norway.</figcaption>
+               
+                </div>
+				
+				
+				
+				
+				
+     	    </div>
+		
+		
+		<!-- APP DETAILS -->
+		<div class="wow fadeInUp content-card" style="margin-top: 0;">
+     		<span class="text-subtitle" style="font-size: 2em; font-weight: 300; color: #333">Details</span>
+			<br><br>
+			<div>
+				<!-- REPLACE WITH YOUR APP DETAILS ACCORDINGLY -->
+				<div class="detail-item">
+					<iron-icon class="details-icon" icon="mail"></iron-icon>
+					<span class="text-description"></span>
+				</div>
+			</div>	
+     	</div>
+		
+		<!-- SPACE BELOW DETAILS -->	
+		<div class="empty-space">
+			<div class="meta-container wow fadeInUp">
+				<div class="wow fadeInUp detail-item watermark credits">
+						<span class="text-description credits-text" style="color: #ffffff"> <a href="http://faizmalkani.com" style="color: #fff; font-weight: 700"></a></span>
+				</div>
+			</div>	
+		</div>
+			
+			
+			
+			
+			
+		<!-- ===================================================================================================== -->
+			
+		<!-- JAVASCRIPT -->
+		
+		<!-- Animations -->
+		<script src="js/wow.min.js"></script>
+		<script>
+		$(document).ready(function(){
+    $('.materialboxed').materialbox();
+  });
+  </script>
+		<script>
+		window.onload = function() {
+    var files = document.querySelectorAll("input[type=file]");
+    files[0].addEventListener("change", function(e) {
+        if(this.files && this.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) { document.getElementById("preview").setAttribute("src", e.target.result); }
+            reader.readAsDataURL(this.files[0]);
+        }
+    });
+}
+</script>
+		<script>
+			new WOW().init();
+		</script>
+		
+		<!-- Scrollwheel Smoothing -->
+		<script>
+			$(function()
+			{	
+				var $window = $(window);
+				var scrollTime = 0.2;
+				var scrollDistance = 270;
+				$window.on("mousewheel DOMMouseScroll", function(event)
+				{
+	
+					event.preventDefault();	
+					var delta = event.originalEvent.wheelDelta/120 || -event.originalEvent.detail/3;
+					var scrollTop = $window.scrollTop();
+					var finalScroll = scrollTop - parseInt(delta*scrollDistance);
+					TweenMax.to($window, scrollTime, 
+					{
+						scrollTo : { y: finalScroll, autoKill:true }, ease: Power1.easeOut, overwrite: 5	 
+						
+					});
+				});
+			});
+		</script>
+	</body>
+</html>	
